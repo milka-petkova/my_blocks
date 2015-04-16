@@ -1,2 +1,3 @@
 name = My custom blocks
 description = Custom module that implements main block api hooks.
+core = 7.x
