@@ -1,7 +1,4 @@
 <?php
-dpm($text);
-dpm($link_url);
-dpm($link_title);
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates

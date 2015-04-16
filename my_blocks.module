@@ -69,12 +69,18 @@ function my_blocks_block_save($delta = '', $edit = array()) {
  * Implements hook_block_view().
  */
 function my_blocks_block_view($delta = '') {
+  $block = array();
+
   if ($delta == 'my_first_block') {
     $settings = variable_get('my_first_block_settings', array());
     $block = array();
     $block['content'] = theme('my_first_block_theme', $settings);
-    return $block;
   }
+  else if ($delta == 'my_second_block') {
+    $user = $GLOBALS['user'];
+    $block['content'] = theme('my_second_block_theme', array('user' => $user));
+  }
+  return $block;
 }
 
 /**
@@ -89,11 +95,17 @@ function hook_block_view_alter(&$data, $block) {
  * Implements hook_theme().
  */
 function my_blocks_theme() {
+  $theme_path = drupal_get_path('module', 'my_blocks') . '/theme';
   return array(
     'my_first_block_theme' => array(
       'variables' => array('text' => '', 'link_url' => '', 'link_title' => ''),
       'template' => 'my_first_block_template',
-      'path' => drupal_get_path('module', 'my_blocks') . '/theme',
+      'path' => $theme_path,
+    ),
+    'my_second_block_theme' => array(
+      'variables' => array('user' => NULL),
+      'file' => 'my_blocks.theme.inc',
+      'path' => $theme_path,
     ),
   );
 }
