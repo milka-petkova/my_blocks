@@ -9,38 +9,91 @@
  * Implements hook_block_info().
  */
 function my_blocks_block_info() {
-  // For further information :
-  // https://api.drupal.org/api/drupal/modules!block!block.api.php/function/hook_block_info/7.
+  $blocks['my_first_block'] = array(
+    'info' => t('My first Block'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  //This block will be without configuration.
+  $blocks['my_second_block'] = array(
+    'info' => t('My second block'),
+  );
+  return $blocks;
 }
 
 /**
  * Implements hook_block_configure().
  */
 function my_blocks_block_configure($delta = '') {
-  // For futher information :
-  https://api.drupal.org/api/drupal/modules!block!block.api.php/function/hook_block_configure/7.
+  $form = array();
+
+  if ($delta == 'my_first_block') {
+    $settings = variable_get('my_first_block_settings', array());
+
+    $form['my_first_block_settings'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Settings of my first block'),
+    );
+    $form['my_first_block_settings']['text'] = array(
+      '#type' => 'textarea',
+      '#title' => t('Text for this block.'),
+      '#default_value' => isset($settings['text']) ? $settings['text'] : '',
+    );
+    $form['my_first_block_settings']['link_url'] = array(
+      '#type' => 'textfield',
+      '#title' => t('URL of link'),
+      '#default_value' => isset($settings['link_url']) ? $settings['link_url'] : '',
+    );
+    $form['my_first_block_settings']['link_title'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Title of link'),
+      '#default_value' => isset($settings['link_title']) ? $settings['link_title'] : '',
+    );
+  }
+  return $form;
 }
 
 /**
  * Implmenets hook_block_save(). 
  */
 function my_blocks_block_save($delta = '', $edit = array()) {
-  //For further information :
-  //https://api.drupal.org/api/drupal/modules!block!block.api.php/function/hook_block_save/7.
+  if ($delta == 'my_first_block') {
+    $keys = array('text', 'link_url', 'link_title');
+    foreach ($keys as $key) {
+      $settings[$key] = $edit[$key];
+    }
+    variable_set('my_first_block_settings', $settings);
+  }
 }
 
 /**
  * Implements hook_block_view().
  */
 function my_blocks_block_view($delta = '') {
-  // For further information :
-  // https://api.drupal.org/api/drupal/modules!block!block.api.php/function/hook_block_view/7.
+  if ($delta == 'my_first_block') {
+    $settings = variable_get('my_first_block_settings', array());
+    $block = array();
+    $block['content'] = theme('my_first_block_theme', $settings);
+    return $block;
+  }
 }
 
 /**
  * Implements hook_block_view_alter().
  */
-function  hook_block_view_alter(&$data, $block) {
+function hook_block_view_alter(&$data, $block) {
   // For further information :
   // https://api.drupal.org/api/drupal/modules!block!block.api.php/function/hook_block_view_alter/7.
+}
+
+/**
+ * Implements hook_theme().
+ */
+function my_blocks_theme() {
+  return array(
+    'my_first_block_theme' => array(
+      'variables' => array('text' => '', 'link_url' => '', 'link_title' => ''),
+      'template' => 'my_first_block_template',
+      'path' => drupal_get_path('module', 'my_blocks') . '/theme',
+    ),
+  );
 }
