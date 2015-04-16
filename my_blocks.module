@@ -1,0 +1,46 @@
+<?php
+
+/**
+ * @file
+ * Contains module main hooks.
+ */
+
+/**
+ * Implements hook_block_info().
+ */
+function my_blocks_block_info() {
+  // For further information :
+  // https://api.drupal.org/api/drupal/modules!block!block.api.php/function/hook_block_info/7.
+}
+
+/**
+ * Implements hook_block_configure().
+ */
+function my_blocks_block_configure($delta = '') {
+  // For futher information :
+  https://api.drupal.org/api/drupal/modules!block!block.api.php/function/hook_block_configure/7.
+}
+
+/**
+ * Implmenets hook_block_save(). 
+ */
+function my_blocks_block_save($delta = '', $edit = array()) {
+  //For further information :
+  //https://api.drupal.org/api/drupal/modules!block!block.api.php/function/hook_block_save/7.
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function my_blocks_block_view($delta = '') {
+  // For further information :
+  // https://api.drupal.org/api/drupal/modules!block!block.api.php/function/hook_block_view/7.
+}
+
+/**
+ * Implements hook_block_view_alter().
+ */
+function  hook_block_view_alter(&$data, $block) {
+  // For further information :
+  // https://api.drupal.org/api/drupal/modules!block!block.api.php/function/hook_block_view_alter/7.
+}
